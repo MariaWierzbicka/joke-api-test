@@ -1,16 +1,20 @@
 package steps;
 
+import base.TestContext;
 import io.cucumber.java.en.Given;
 import base.BaseSteps;
+import io.restassured.RestAssured;
 
-import static io.restassured.RestAssured.given;
+public class CommonSteps extends BaseSteps {
 
-public class CommonSteps extends BaseSteps{
+    private TestContext context;
 
-    @Given("Joke API is responsive")
-    public void verifyResponseStatus(){
-        given().baseUri(BASE_URL)
-                .when().get(RANDOM_URL)
-                .then().statusCode(200);
+    public CommonSteps(TestContext context) {
+        this.context = context;
+    }
+
+    @Given("The Base URI is set")
+    public void theBaseURIIsSet() {
+        RestAssured.baseURI = BASE_URI;
     }
 }
