@@ -8,7 +8,7 @@ import java.util.Map;
 public class BaseSteps {
 
     protected static final String BASE_URI = "https://official-joke-api.appspot.com/";
-    protected static final String RANDOM = "jokes/random";
+    protected static final String RANDOM = "random";
     protected static final String JOKES = "jokes";
 
     protected static List<Map<String, Object>> getJokesAsList(Response response) {

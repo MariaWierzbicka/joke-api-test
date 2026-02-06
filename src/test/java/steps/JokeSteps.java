@@ -14,7 +14,7 @@ import base.BaseSteps;
 
 import java.util.*;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 
 public class JokeSteps extends BaseSteps {
 
@@ -26,10 +26,10 @@ public class JokeSteps extends BaseSteps {
 
     @Given("The url is set to get {} random jokes")
     public void theUrlIsSetToGetNumberRandomJokes(String amount) {
-        RequestSpecification req = given().baseUri(BASE_URI)
-                .basePath(RANDOM)
+        RequestSpecification requestSpecification = given()
+                .basePath(JOKES + "/" + RANDOM)
                 .pathParam("amount", amount);
-        context.setRequestSpec(req);
+        context.setRequestSpec(requestSpecification);
     }
 
     @When("Request for multiple random jokes is sent")
@@ -97,16 +97,15 @@ public class JokeSteps extends BaseSteps {
     @Given("The url is set to a specific joke id {}")
     public void theUrlIsSetToASpecificJokeIdId(String stringId) {
         String id = stringId.replace("\"", "");
-        RequestSpecification req = given()
+        RequestSpecification requestSpecification = given()
                 .basePath(JOKES).pathParam("id", id);
-        context.setRequestSpec(req);
-        context.setCurrentJokeId(id);
+        context.setRequestSpec(requestSpecification);
+        context.setCurrentParam(id);
     }
 
-    @When("GET request is sent")
-    public void getRequestIsSent() {
-        RequestSpecification req = context.getRequestSpec();
-        Response response = req.when().get("/{id}");
+    @When("Request containing joke id is sent")
+    public void requestContainingJokeIdIsSent() {
+        Response response = context.getRequestSpec().when().get("/{id}");
         context.setResponse(response);
     }
 
@@ -118,7 +117,7 @@ public class JokeSteps extends BaseSteps {
 
         String[] keys = {"id", "type", "setup", "punchline"};
         String[] expectedValues = {id, type, setup, punchline};
-        String jokeId = context.getCurrentJokeId();
+        String jokeId = context.getCurrentParam();
 
         for (int i = 0; i < keys.length; i++) {
             String key = keys[i];
@@ -130,6 +129,33 @@ public class JokeSteps extends BaseSteps {
                     .isEqualTo(expectedValue);
         }
         softAssertions.assertAll();
+    }
+
+    @Given("The url is set to a specific joke type {}")
+    public void theUrlIsSetToASpecificJokeTypeType(String type) {
+        RequestSpecification requestSpecification = given().baseUri(BASE_URI)
+                .basePath(JOKES + "/{type}/" + RANDOM)
+                .pathParam("type", type);
+        context.setRequestSpec(requestSpecification);
+        context.setCurrentParam(type);
+    }
+
+    @When("Request containing a specific type is sent")
+    public void requestContainingASpecificTypeIsSent() {
+        RequestSpecification requestSpecification = context.getRequestSpec();
+        Response response = requestSpecification.when().get();
+        context.setResponse(response);
+    }
+
+    @Then("Verify the joke contains correct type value")
+    public void verifyTheJokeContainsCorrectTypeValue() {
+        Response response = context.getResponse();
+        String expectedType = context.getCurrentParam();
+        String actualType = response.jsonPath().getString("[0].type");
+        String id = response.jsonPath().getString("[0].id");
+
+        Assert.assertEquals(String.format("Joke type doesn't match expected. Joke id: %s", id), expectedType, actualType);
+
     }
 
 }

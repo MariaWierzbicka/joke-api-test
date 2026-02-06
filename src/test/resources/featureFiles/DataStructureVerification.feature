@@ -1,6 +1,7 @@
 Feature: Data structure verification
 
   Scenario Outline: Check data structure of multiple random jokes
+
     Given The url is set to get <number> random jokes
     When Request for multiple random jokes is sent
     Then Each response item contains correct fields:

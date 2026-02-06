@@ -6,7 +6,7 @@ import io.restassured.specification.RequestSpecification;
 public class TestContext {
     private RequestSpecification requestSpec;
     private Response response;
-    private String currentJokeId;
+    private String currentParam;
 
     public Response getResponse() {
         return response;
@@ -24,10 +24,11 @@ public class TestContext {
         this.requestSpec = requestSpecification;
     }
 
-    public String getCurrentJokeId() {
-        return currentJokeId;
+    public String getCurrentParam() {
+        return currentParam;
     }
-    public void setCurrentJokeId(String id) {
-        this.currentJokeId = id;
+
+    public void setCurrentParam(String param) {
+        this.currentParam = param;
     }
 }
