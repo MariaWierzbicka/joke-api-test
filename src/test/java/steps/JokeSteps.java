@@ -4,7 +4,6 @@ import base.TestContext;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -26,7 +25,7 @@ public class JokeSteps extends BaseSteps {
 
     @Given("The url is set to get {} random jokes")
     public void theUrlIsSetToGetNumberRandomJokes(String amount) {
-        RequestSpecification requestSpecification = given()
+        RequestSpecification requestSpecification = given().baseUri(BASE_URI)
                 .basePath(JOKES + "/" + RANDOM)
                 .pathParam("amount", amount);
         context.setRequestSpec(requestSpecification);
@@ -39,7 +38,7 @@ public class JokeSteps extends BaseSteps {
         context.setResponse(response);
     }
 
-    @Then("Each response item contains correct fields:")
+    @And("Each response item contains correct fields:")
     public void verifyJokeFields(DataTable fieldsTable) {
         SoftAssertions softAssertions = new SoftAssertions();
 
@@ -109,7 +108,7 @@ public class JokeSteps extends BaseSteps {
         context.setResponse(response);
     }
 
-    @Then("Verify correctness of values: {string}, {string}, {string}, {string}")
+    @And("Verify correctness of values: {string}, {string}, {string}, {string}")
     public void verifyCorrectnessOfValuesIdTypeSetupPunchline(String id, String type, String setup, String punchline) {
         Response response = context.getResponse();
         SoftAssertions softAssertions = new SoftAssertions();
@@ -147,7 +146,7 @@ public class JokeSteps extends BaseSteps {
         context.setResponse(response);
     }
 
-    @Then("Verify the joke contains correct type value")
+    @And("Verify the joke contains correct type value")
     public void verifyTheJokeContainsCorrectTypeValue() {
         Response response = context.getResponse();
         String expectedType = context.getCurrentParam();

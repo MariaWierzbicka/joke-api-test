@@ -7,7 +7,8 @@ Feature: Get joke by type
 
     Given The url is set to a specific joke type <type>
     When Request containing a specific type is sent
-    Then Verify the joke contains correct type value
+    Then Status code should be 200
+    And Verify the joke contains correct type value
     Examples:
       | type        |
       | general     |

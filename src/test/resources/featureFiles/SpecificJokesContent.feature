@@ -6,7 +6,8 @@ Feature: Specific jokes' content
   Scenario Outline:
     Given The url is set to a specific joke id <id>
     When Request containing joke id is sent
-    Then Verify correctness of values: <id>, <type>, <setup>, <punchline>
+    Then Status code should be 200
+    And Verify correctness of values: <id>, <type>, <setup>, <punchline>
     Examples:
       | id    | type          | setup                                                      | punchline                                 |
       | "312" | "general"     | "Why did Dracula lie in the wrong coffin?"                 | "He made a grave mistake."                |

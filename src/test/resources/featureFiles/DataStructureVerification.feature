@@ -4,7 +4,8 @@ Feature: Data structure verification
 
     Given The url is set to get <number> random jokes
     When Request for multiple random jokes is sent
-    Then Each response item contains correct fields:
+    Then Status code should be 200
+    And Each response item contains correct fields:
       | type      |
       | setup     |
       | punchline |
