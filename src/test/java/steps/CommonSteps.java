@@ -1,6 +1,6 @@
 package steps;
 
-import base.TestContext;
+import context.TestContext;
 import io.cucumber.java.en.Given;
 import base.BaseSteps;
 import io.cucumber.java.en.Then;

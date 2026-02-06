@@ -1,6 +1,6 @@
 package steps;
 
-import base.TestContext;
+import context.TestContext;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
